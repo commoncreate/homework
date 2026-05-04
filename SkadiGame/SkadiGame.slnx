@@ -1,0 +1,7 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="SkadiGame/SkadiGame.vcxproj" Id="0f2b919b-e982-45c6-a1e4-c3bb2ce96694" />
+</Solution>
