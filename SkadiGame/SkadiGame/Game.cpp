@@ -5,6 +5,7 @@
 #include "AudioManager.h"
 #include "EffectSystem.h"
 #include "Projectile.h"
+#include "Player.h"
 
 Game::Game()
     : window(sf::VideoMode(1280, 720), "Skadi v2.0 - Boss Fight"),
@@ -176,10 +177,12 @@ void Game::update(float dt) {
 
         for (auto& bp : boss->getCounterProjectiles()) {
             HitBox& bh = bp.getHitBox();
-            if (bh.active && bh.rect.intersects(player.getBounds())) {
-                player.onHit(bh);
-                bp.kill();
-                camera.shake(0.3f, 7.f);
+            if (!player.isInvincible()) {
+                if (bh.active && bh.rect.intersects(player.getBounds())) {
+                    player.onHit(bh);
+                    bp.kill();
+                    camera.shake(0.3f, 7.f);
+                }
             }
         }
 

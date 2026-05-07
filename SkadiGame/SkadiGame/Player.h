@@ -38,6 +38,9 @@ public:
     bool  isFacingRight() const { return facingRight; }
     bool  isDead() const { return hp <= 0; }
 
+    // expose invincibility check to other systems (was private)
+    bool isInvincible() const { return state == PlayerState::PARRY_SUCCESS; }
+
     HitBox& getSkillHitbox_Y() { return skillHitbox_Y; }
     HitBox& getSkillHitbox_U() { return skillHitbox_U; }
     HitBox& getSkillHitBox() { return skillHitbox; }
@@ -71,7 +74,6 @@ private:
     Animation animIdle, animRun, animJump, animFall, animBlock, animHurt;
     Animation animAttack1, animAttack2;
     bool facingRight = true;
-
     const float MOVE_SPEED = 300.f;
     const float JUMP_FORCE = -550.f;
     const float GRAVITY = 1400.f;

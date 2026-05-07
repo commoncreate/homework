@@ -1,6 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include <cmath>
+#include <cstdlib>
 #include "HitBox.h"
 
 class BossProjectile {
@@ -16,6 +17,7 @@ public:
         hitbox.active = true;
         hitbox.lifeTime = MAX_LIFE;
         hitbox.ownerId = 0;   
+        hitbox.isSkill = true;
     }
 
     void update(float dt) {
@@ -23,7 +25,7 @@ public:
         life -= dt;
 
         hitbox.rect = sf::FloatRect(
-            position.x - 40.f, position.y - 25.f, 80.f, 50.f
+            position.x - 55.f, position.y - 45.f, 110.f, 90.f
         );
         if (life <= 0.f) hitbox.active = false;
     }
@@ -33,9 +35,16 @@ public:
 
         float dir = movingRight ? 1.f : -1.f;
 
+        sf::CircleShape glow(55.f);
+        glow.setOrigin(55.f, 55.f);
+        glow.setPosition(position);
+        glow.setFillColor(sf::Color(255, 80, 60, 60));
+        w.draw(glow);
+
+
         sf::ConvexShape moon;
         moon.setPointCount(8);
-        float r = 38.f;
+        float r = 40.f;
         moon.setPoint(0, { 0.f, -r });
         moon.setPoint(1, { r * 0.7f * dir, -r * 0.7f });
         moon.setPoint(2, { r * 1.0f * dir, 0.f });
@@ -88,6 +97,6 @@ private:
     float life;
     HitBox hitbox;
 
-    static constexpr float SPEED = 550.f;
-    static constexpr float MAX_LIFE = 1.2f;
+    static constexpr float SPEED = 450.f;
+    static constexpr float MAX_LIFE = 1.8f;
 };
