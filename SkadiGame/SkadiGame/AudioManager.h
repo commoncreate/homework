@@ -53,7 +53,8 @@ public:
             return false;
         }
         bgm.setLoop(true);
-        bgm.setVolume(volume * masterVolume / 100.f);
+        bgmBaseVolume = std::max(0.f, std::min(100.f, volume));
+        bgm.setVolume(bgmBaseVolume * masterVolume / 100.f);
         bgm.play();
         std::cout << "[AUDIO] BGM 开始播放: " << path << "\n";
         return true;
@@ -67,7 +68,8 @@ public:
     }
     void setMasterVolume(float v) {
         masterVolume = std::max(0.f, std::min(100.f, v));
-        bgm.setVolume(bgm.getVolume() * masterVolume / 100.f);
+        // apply master volume relative to the base BGM volume (not the current scaled value)
+        bgm.setVolume(bgmBaseVolume * masterVolume / 100.f);
     }
     float getMasterVolume() const { return masterVolume; }
 
@@ -78,5 +80,6 @@ private:
     std::vector<sf::Sound> pool;      
     sf::Music bgm;                     
     float masterVolume = 100.f;
+    float bgmBaseVolume = 50.f; // store the last requested BGM volume
     static constexpr size_t MAX_POOL_SIZE = 32;
 };
